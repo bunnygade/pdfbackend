@@ -1,11 +1,13 @@
 steps:
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/pdf-converter-backend', './backend']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/pdf-converter-backend', '.']
+    timeout: '1800s'
 
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/pdf-converter-backend']
+    timeout: '600s'
 
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -31,6 +33,13 @@ steps:
       - '10'
       - '--set-env-vars'
       - 'NODE_ENV=production'
+      - '--timeout'
+      - '300s'
+    timeout: '600s'
+
+timeout: '3600s'
+options:
+  logging: CLOUD_LOGGING_ONLY
 
 images:
   - 'gcr.io/$PROJECT_ID/pdf-converter-backend' 

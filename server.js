@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const { errorHandler } = require('./middleware/errorHandler');
 const pdfRoutes = require('./routes/pdfRoutes');
+const ocrRoutes = require('./routes/ocrRoutes');
 require('./utils/cleanup'); // Import cleanup utility
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // API Routes
 app.use('/api/pdf', pdfRoutes);
+app.use('/api/ocr', ocrRoutes);
 
 // Error handling middleware
 app.use(errorHandler);
